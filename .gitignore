@@ -20,3 +20,6 @@
 # Archivos generados por el IDE de Code::Blocks
 *.autosave
 *.log
+
+# Otros archivos
+*.pdf
