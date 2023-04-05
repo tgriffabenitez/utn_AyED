@@ -1,0 +1,22 @@
+# Archivos generados por el compilador Borland C++
+*.tds
+*.tis
+*.obj
+*.exe
+*.ilc
+*.ild
+*.ilf
+*.ils
+*.map
+
+# Archivos generados por Code::Blocks
+*.cbp
+*.layout
+*.depend
+*.layout
+*.layout~
+*.cbp~
+
+# Archivos generados por el IDE de Code::Blocks
+*.autosave
+*.log
