@@ -1,3 +1,11 @@
+/*
+    De c/u. de los participantes del Rally Paris-Dakar se conocen, al finalizar una etapa, los
+    siguientes datos:
+    Código(0: fin del proceso, 1: auto, 2:camión, 3: moto), número del vehículo, apellido y
+    nombre del piloto y del copiloto, nombre de la escudería y tiempo utilizado. Se debe
+    informar para cada tipo de vehículo los datos del ganador.
+*/
+
 #include<fstream>
 #include<string>
 
