@@ -17,7 +17,6 @@ typedef struct {
     int a;
     int b;
     int c;
-    string tipo_triangulo;
 } triangulo_t;
 
 triangulo_t generar_triangulo();
