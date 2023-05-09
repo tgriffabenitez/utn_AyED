@@ -1,11 +1,10 @@
 /*
-    Dado un valor entero n, y a continuaciÛn n ternas de valores enteros sin orden, se deber·n
+    Dado un valor entero n, y a continuaci√≥n n ternas de valores enteros sin orden, se deber√°n
     emitir cada una de esas ternas en forma ordenada decreciente en las mismas variables. Por
     fin de proceso, se debe emitir el menor y el mayor valor de todas las ternas ingresadas.
 */
 
 #include<fstream>
-#include<algorithm>
 using namespace std;
 
 void bubble_sort(int terna[]);
