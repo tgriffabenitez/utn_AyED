@@ -13,71 +13,99 @@
 #include<fstream>
 using namespace std;
 
+
+typedef unsigned short ushort;
+typedef unsigned int uint;
+
 typedef struct {
-    int a;
-    int b;
-    int c;
+    uint a;
+    uint b;
+    uint c;
 } triangulo_t;
 
-triangulo_t generar_triangulo();
-string clasificacion_triangulo(triangulo_t triangulo);
+
+void imprimir_menu(void);
+
+string obtener_nombre_alumno(void);
+
+triangulo_t generar_triangulo(void);
+string clasificar_triangulo(triangulo_t triangulo);
 float calcular_perimetro(triangulo_t triangulo);
 
+float respuesta_alumno_perimetro(void);
+string respuesta_alumno_tipo(void);
+
+bool evaluar_alumno_tipo(string tipo_triangulo, string respuesta_alumno_tipo);
+bool evaluar_alumno_perimetro(float perimetro_alumno, float perimetro_maquina);
+
+void mostrar_resultados(string alumno, bool tipo_correcto, bool perimetro_correcto, ushort &respuesta_correcta, ushort &respuesta_incorrecta);
+
 int main(void) {
-    int respuesta_correcta = 0, respuesta_incorrecta = 0;
-    float perimetro_alumno;
-    string nombre_alumno, tipo_triangulo, flag;
+    triangulo_t triangulo;
+    bool tipo_correcto, perimetro_correcto;
+    ushort respuesta_correcta = 0, respuesta_incorrecta = 0;
+    float perimetro_alumno, perimetro_maquina;
+    string tipo_alumno, tipo_maquina;
+    string alumno;
+
+
+    imprimir_menu();
+    alumno = obtener_nombre_alumno();
+    while(alumno != "*") {
+        // genero los valores correctos
+        triangulo = generar_triangulo();
+        perimetro_maquina = calcular_perimetro(triangulo);
+        string tipo_maquina = clasificar_triangulo(triangulo);
+
+        // obtengo las respuestas del alumno
+        perimetro_alumno = respuesta_alumno_perimetro();
+        tipo_alumno = respuesta_alumno_tipo();
+
+        // verifico los datos ingresados por el alumno
+        perimetro_correcto = evaluar_alumno_perimetro(perimetro_alumno, perimetro_maquina);
+        tipo_correcto = evaluar_alumno_tipo(tipo_maquina, tipo_alumno);
+
+        // muestro por pantalla los resultados
+        mostrar_resultados(alumno, tipo_correcto, perimetro_correcto, respuesta_correcta, respuesta_incorrecta);
+        alumno = obtener_nombre_alumno();
+    }
+
+    return 0;
+}
+
+void imprimir_menu() {
+    cout << "Examen de matematicas, tema: Trriangulos." << endl;
+    cout << "Calcular el perimetro del triangulo e indicar de que tipo es (escaleno, isosceles, equilatero)" << endl;
+}
+
+string obtener_nombre_alumno() {
+    string nombre_alumno;
 
     cout << "Ingrese su nombre: ";
     cin >> nombre_alumno;
 
-    while(true) {
-        triangulo_t  triangulo = generar_triangulo();
-        float perimetro_funcion = calcular_perimetro(triangulo);
-
-        cout << "Calcular el perimetro del triangulo e indicar de que tipo es (escaleno, isosceles, equilatero)" << endl;
-        cout << "Presione 1 para continuar o -1 para salir: ";
-        cin >> flag;
-
-        if(flag == "-1")
-            break;
-
-        cout << "Los dado el triangulo: " << triangulo.a << ", " << triangulo.b << ", " << triangulo.c << endl;
-        cout << "Calcule el perimetro: ";
-        cin >> perimetro_alumno;
-        cout << "Indique que tipo de triangulo es (escaleno, isosceles, equilatero): ";
-        cin >> tipo_triangulo;
-
-        if(tipo_triangulo == clasificacion_triangulo(triangulo) && perimetro_alumno == perimetro_funcion) {
-            respuesta_correcta++;
-        } else {
-            respuesta_incorrecta++;
-        }
-    }
-    cout << "El alumno: " << nombre_alumno << " tuvo " << respuesta_correcta << " respuestas correctas y " << respuesta_incorrecta << " respuestas incorrectas." << endl;
-    return 0;
+    return nombre_alumno;
 }
 
 triangulo_t generar_triangulo() {
     triangulo_t triangulo;
-    bool es_triangulo_valido = false;
 
     randomize();
-    while(!es_triangulo_valido) {
-        triangulo.a = random(50);
-        triangulo.b = random(50);
-        triangulo.c = random(50);
 
-        // si los valores generados cumplen la condicion de triangulo, salgo del while
-        if((triangulo.a < (triangulo.b + triangulo.c) && triangulo.b < (triangulo.a + triangulo.c) && triangulo.c < (triangulo.a + triangulo.b))) {
-            es_triangulo_valido = true;
-        }
-    }
+    triangulo.a = random(50) + 1;
+    triangulo.b = random(50) + 1;
+
+    int min_z = abs(triangulo.a - triangulo.b) + 1;
+    int max_z = triangulo.a + triangulo.b - 1;
+
+    triangulo.c = random(min_z - max_z) + min_z;
+
+    cout << triangulo.a << " " << triangulo.b << " " << triangulo.c << endl;
 
     return triangulo;
 }
 
-string clasificacion_triangulo(triangulo_t triangulo) {
+string clasificar_triangulo(triangulo_t triangulo) {
     string tipo_triangulo;
 
     if(triangulo.a == triangulo.b || triangulo.b == triangulo.c || triangulo.a == triangulo.c) {
@@ -95,4 +123,48 @@ string clasificacion_triangulo(triangulo_t triangulo) {
 
 float calcular_perimetro(triangulo_t triangulo) {
     return triangulo.a + triangulo.b + triangulo.c;
+}
+
+float respuesta_alumno_perimetro(void) {
+    float perimetro;
+    cout << "Ingrese el valor del perimetro: ";
+    cin >> perimetro;
+    return perimetro;
+}
+
+string respuesta_alumno_tipo(void) {
+    string tipo_triangulo;
+    cout << "Ingrese le tipo del triangulo (isosceles, escaleno, equilatero): ";
+    cin >> tipo_triangulo;
+    return tipo_triangulo;
+}
+
+bool evaluar_alumno_tipo(string tipo_triangulo, string respuesta_alumno_tipo) {
+    bool resultado = false;
+
+    if (tipo_triangulo == respuesta_alumno_tipo)
+        resultado = true;
+
+    return resultado;
+}
+
+bool evaluar_alumno_perimetro(float tipo_alumno, float tipo_maquina){
+    bool resultado = false;
+
+    if (tipo_maquina == tipo_alumno)
+        resultado = true;
+
+    return resultado;
+}
+
+void mostrar_resultados(string alumno, bool tipo_correcto, bool perimetro_correcto, ushort &respuesta_correcta, ushort &respuesta_incorrecta) {
+    if (tipo_correcto && perimetro_correcto) {
+        respuesta_correcta++;
+        cout << alumno << " OK" << endl;
+
+    } else{
+        respuesta_incorrecta++;
+        cout << alumno << " estudie+" << endl;
+    }
+
 }
