@@ -25,16 +25,12 @@ typedef struct {
 
 
 void imprimir_menu(void);
-
 string obtener_nombre_alumno(void);
-
 triangulo_t generar_triangulo(void);
 string clasificar_triangulo(triangulo_t triangulo);
 float calcular_perimetro(triangulo_t triangulo);
-
 float respuesta_alumno_perimetro(void);
 string respuesta_alumno_tipo(void);
-
 bool evaluar_alumno_tipo(string tipo_triangulo, string respuesta_alumno_tipo);
 bool evaluar_alumno_perimetro(float perimetro_alumno, float perimetro_maquina);
 
@@ -47,7 +43,6 @@ int main(void) {
     float perimetro_alumno, perimetro_maquina;
     string tipo_alumno, tipo_maquina;
     string alumno;
-
 
     imprimir_menu();
     alumno = obtener_nombre_alumno();
